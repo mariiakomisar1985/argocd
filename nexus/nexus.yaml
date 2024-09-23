@@ -1,4 +1,4 @@
-piVersion: argoproj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: nexus
@@ -22,3 +22,29 @@ spec:
     targetRevision: 42.0.0
     helm:
       releaseName: nexus
+      values: |-
+        ingress:
+          enabled: true
+          annotations: 
+            kubernetes.io/ingress.class: nginx
+          hostPath: /
+          hostRepo: nexus.minikube.local
+          ingressClassName: nginx
+        persistence:
+          enabled: true
+          accessMode: ReadWriteOnce
+          storageClass: standard
+          storageSize: 30Gi
+        serviceAccount:
+          create: true
+          annotations: {}
+          name: "nexus-sa"
+        nexus:
+          nodeSelector: {}
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 2Gi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
