@@ -1,0 +1,24 @@
+piVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nexus
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nexus
+  syncPolicy:
+    automated:
+      selfHeal: false
+      prune: false
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    repoURL: https://sonatype.github.io/helm3-charts
+    chart: nexus-repository-manager
+    targetRevision: 42.0.0
+    helm:
+      releaseName: nexus
