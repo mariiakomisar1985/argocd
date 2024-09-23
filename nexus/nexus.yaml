@@ -34,7 +34,7 @@ spec:
           enabled: true
           accessMode: ReadWriteOnce
           storageClass: standard
-          storageSize: 30Gi
+          storageSize: 1Gi
         serviceAccount:
           create: true
           annotations: {}
